@@ -13,6 +13,12 @@ def product():
     return Product("book", 100, "This is a book", 1000)
 
 @pytest.fixture
+def product1():
+    return Product("ps", 500, "This is gamestation", 100)
+
+
+
+@pytest.fixture
 def cart():
     return Cart()
 
@@ -69,14 +75,14 @@ class TestCart:
         cart.remove_product(product, remove_count=20)
         assert len(cart.products) == 0
 
-    def test_total_price(self, product, cart):
+    def test_total_price(self, product, product1, cart):
         cart.add_product(product, 25)
-        cart .add_product(product, 30)
-        assert cart.get_total_price() ==5500
+        cart .add_product(product1, 30)
+        assert cart.get_total_price() ==17500
 
 
-    def test_buy_with_insufficient_stock(self, cart, product):
-        cart.add_product(product, 1002)
+    def test_buy_with_insufficient_stock(self, cart, product, product1):
+        cart.add_product(product1,101)
 
         # Покупка должна вызвать ValueError из-за недостатка товара
         with pytest.raises(ValueError, match=f"Товара не хватает на складе"):
